@@ -34,10 +34,45 @@ public class MaxHeap {
         return heap.get(0);
     }
 
+    // T: O(nlogn), S: O(1)
+    public void heapSort() {
+        for (int i = heap.size() - 1; i >= 0; i--) {
+            Collections.swap(heap, 0, i);
+            heapify(0, i);
+        }
+    }
+
     // T: O(logn), S: O(1)
     public void heapify(int index) {
 
         int size = heap.size();
+        int largest = index;
+
+        while (index < size) {
+
+            int lci = 2 * index + 1;
+            int rci = 2 * index + 2;
+
+            if (lci < size && heap.get(lci) > heap.get(largest)) {
+                largest = lci;
+            }
+
+            if (rci < size && heap.get(rci) > heap.get(largest)) {
+                largest = rci;
+            }
+
+            if (largest != index) {
+                Collections.swap(heap, index, largest);
+                index = largest;
+            } else {
+                break;
+            }
+
+        }
+    }
+
+    public void heapify(int index, int size) {
+
         int largest = index;
 
         while (index < size) {
@@ -132,7 +167,8 @@ class Main {
         };
 
         MaxHeap mh = new MaxHeap(nums);
+        mh.heapSort();
         mh.print();
-        System.out.println(mh.peek());
+
     }
 }
